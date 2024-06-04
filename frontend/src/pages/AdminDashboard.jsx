@@ -21,17 +21,19 @@ const AdminDashboard = () => {
     // },[])
   return (
     <div>
-        <div className='flex justify-center gap-32' >
-                <span> vehicle</span>
-                <span> quantity</span>
-                <span> price</span>
-        </div>
+        <h1 className='flex justify-center my-4'>ALL RIDES</h1>
         {
           rides.map((ride)=>(
             <div className='flex my-5 font-medium justify-center gap-40' key={ride._id}>
-                <span> {ride.vehicle}</span>
-                <span> {ride.quantity}</span>
-                <span> {ride.price}</span>
+                <span>
+                  <span className='font-light mx-2'>type: </span>
+                  {ride.vehicle}
+                </span>
+                <span> 
+                  <span className='font-light mx-2'>units:  </span>
+                {ride.quantity}
+                </span>
+                <span><span className='font-light mx-2'>price:  </span> {ride.price}</span>
                 <Link to={`edit/ride/${ride._id}`} className='border-2 border-green-100 rounded-md'>edit</Link>
              </div>
           ))

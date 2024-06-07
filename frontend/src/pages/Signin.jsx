@@ -5,7 +5,7 @@ import InputBox from '../components/InputBox'
 import Button from '../components/Button'
 import BottomWarning from '../components/BottomWarning'
 
-const Signin = () => {
+const Signin = ({text}) => {
   return (
     <div className='bg-slate-300 h-screen flex justify-center items-center'>
 

@@ -4,7 +4,7 @@ import Signin from './pages/Signin'
 import AdminDashboard from './pages/AdminDashboard'
 import UserDashboard from './pages/UserDashboard'
 import Journey from './pages/Journey'
-
+import Wallet from './pages/Wallet'
 
 function App() {
   return (
@@ -12,11 +12,12 @@ function App() {
         <div className='text-center font-serif  bg-green-100 py-3 font-medium'>Cab Booking App</div>
         <BrowserRouter>
               <Routes>
-                    <Route path="/signup" element={<Signup/>} />
-                    <Route path="/signin" element={<Signin/>} />
+                    <Route path="/signup" element={<Signup text={"user"}/>} />
+                    <Route path="/signin" element={<Signin text={"user"}/>} />
                       <Route path="/admin/dashboard" element={<AdminDashboard/>} />
                     <Route path="/user/dashboard" element={<UserDashboard />} />
                     <Route path="/book/ride" element={<Journey />} />
+                    <Route path="/wallet/topup" element={<Wallet />} />
               </Routes>
         </BrowserRouter>
     </>

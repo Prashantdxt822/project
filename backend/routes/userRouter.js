@@ -40,7 +40,31 @@ router.get('/signin',async(req,res)=>{
     }
 })
 
+router.get('/ride',async(req,res)=>{
+    try {
+        const allRides=await Ride.find({});
+        res.status(200).send({allRides});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({msg:"server has some internal error!"});
+    }
+})
+
 router.use(userCheck);
+
+router.get('/:id',async(req,res)=>{
+    try {
+        const userId=req.params.id;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).send({msg:"user doesn't exist"});
+        }
+        return res.status(200).send({user});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({msg:"internal server error"});
+    }
+});
 
 router.put('/:id',async(req,res)=>{
     try {
@@ -57,15 +81,10 @@ router.put('/:id',async(req,res)=>{
     }
 })
 
-router.get('/ride',async(req,res)=>{
-    try {
-        const allRides=await Ride.find({});
-        res.status(200).send({allRides});
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({msg:"server has some internal error!"});
-    }
-})
+
+
+
+
 
 router.put('/wallet/:id',async(req,res)=>{
     try {
@@ -97,10 +116,10 @@ router.put('/wallet/:id',async(req,res)=>{
 
 router.post('/journey/:id',async(req,res)=>{
     try {
-        const {vehicle,address}=req.body;
+        const {ride_id,address}=req.body;
         const userId=req.params.id;
         const user= await User.findById(userId);
-        const ride= await Ride.findOne({vehicle});
+        const ride= await Ride.findById(ride_id);
         if(!user || !ride || ride.quantity==0){
             return res.status(400).send({msg:"sorry! the ride cannot be booked"});
         }
@@ -110,7 +129,7 @@ router.post('/journey/:id',async(req,res)=>{
         else{
             const journey=await Journey.create({ride_id:ride._id,user_id:user._id,address});
             await Ride.findByIdAndUpdate(ride._id,{$inc:{quantity:-1}});
-            await User.findByIdAndUpdate(userId,{$inc:{'walletBalance.amount':ride.price}});
+            await User.findByIdAndUpdate(userId,{$inc:{'walletBalance.amount':-ride.price}});
             res.status(200).send({msg:"journey successfully created!",journeyId:journey._id});
         }
 

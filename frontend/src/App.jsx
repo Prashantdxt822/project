@@ -2,6 +2,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Signup from './pages/signup'
 import Signin from './pages/Signin'
 import AdminDashboard from './pages/AdminDashboard'
+import UserDashboard from './pages/UserDashboard'
+import Journey from './pages/Journey'
 
 
 function App() {
@@ -12,8 +14,9 @@ function App() {
               <Routes>
                     <Route path="/signup" element={<Signup/>} />
                     <Route path="/signin" element={<Signin/>} />
-                      <Route path="/Admin/dashboard" element={<AdminDashboard/>} />
-                    {/* <Route path="/send" element={<SendMoney />} /> */}
+                      <Route path="/admin/dashboard" element={<AdminDashboard/>} />
+                    <Route path="/user/dashboard" element={<UserDashboard />} />
+                    <Route path="/book/ride" element={<Journey />} />
               </Routes>
         </BrowserRouter>
     </>

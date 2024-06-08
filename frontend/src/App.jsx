@@ -5,6 +5,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import UserDashboard from './pages/UserDashboard'
 import Journey from './pages/Journey'
 import Wallet from './pages/Wallet'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/user/dashboard" element={<UserDashboard />} />
                     <Route path="/book/ride" element={<Journey />} />
                     <Route path="/wallet/topup" element={<Wallet />} />
+                    <Route path="/profile" element={<Profile />} />
               </Routes>
         </BrowserRouter>
     </>

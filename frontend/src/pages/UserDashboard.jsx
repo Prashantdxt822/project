@@ -46,7 +46,7 @@ const UserDashboard = () => {
   <div>
 
         <div className='flex justify-between mx-10'>
-            <Link>Profile - {user.firstName}</Link>
+            <Link to={`/profile?id=${user._id}`}>Profile - {user.firstName}</Link>
             <Link to={`/wallet/topup?id=${user._id}`}><button>wallet - ₹{balance}</button></Link>
         </div>
             <div>

@@ -16,6 +16,8 @@ const Journey = () => {
   }
 
   const submitFn=async()=>{
+    try {
+      
       const res=await axios.post(`http://localhost:3000/api/v1/user/journey/${user_id}`,{
         ride_id,
         address
@@ -25,6 +27,11 @@ const Journey = () => {
         }
       })
       console.log(res);
+      alert('journey booked!')
+    } catch (error) {
+      console.log(error);
+      alert('journey cannot be booked because of low wallet balance')
+    }
   }
   const [selectedOffice,setSelectedOffice]=useState({});
   const [searchValue,setSearchValue]=useState(0);

@@ -10,15 +10,7 @@ const UserDashboard = () => {
     const [balance,setBalance]=useState(0);
     const [isLogin,setIsLogin]=useState(false);
     const [user,setUser]=useState("");
-    const [allRides,setAllRides]=useState([{
-        vehicle:"bike",
-        quantity:10,
-        price:300
-      },{
-        vehicle:"bike",
-        quantity:10,
-        price:300
-      }]);
+    const [allRides,setAllRides]=useState([]);
       useEffect(()=>{
         axios.get(`http://localhost:3000/api/v1/user/${id}`,{
           headers:{
@@ -46,8 +38,8 @@ const UserDashboard = () => {
   <div>
 
         <div className='flex justify-between mx-10'>
-            <Link to={`/profile?id=${user._id}`}>Profile - {user.firstName}</Link>
-            <Link to={`/wallet/topup?id=${user._id}`}><button>wallet - ₹{balance}</button></Link>
+            <Link to={`/profile?id=${user._id}`} className='bg-blue-100 font-semibold rounded-md'>Profile - {user.firstName}</Link>
+            <Link to={`/wallet/topup?id=${user._id}`}><button className='bg-yellow-100 rounded-md font-semibold'>wallet - ₹{balance}</button></Link>
         </div>
             <div>
                 {

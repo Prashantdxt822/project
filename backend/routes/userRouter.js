@@ -11,12 +11,12 @@ router.post('/signup',async(req,res)=>{
     try {
         const user  = await User.findOne({username});
         if(user){
-            res.status(401).send({msg:"user already exists"});
+            return res.status(401).send({msg:"user already exists"});
         }
         else{
              const createdUser=await User.create(req.body);
              const token= jwt.sign({userId:createdUser._id},JWT_SECRET);
-             return res.status(200).send({token});
+             return res.status(200).send({token,user:createdUser});
         }
     } catch (error) {
         console.log(error)
@@ -24,33 +24,33 @@ router.post('/signup',async(req,res)=>{
     }
 
 })
-router.get('/signin',async(req,res)=>{
+router.post('/signin',async(req,res)=>{
     const {username,password}= req.body;
     try {
         const {username,password}=req.body;
-        const user= await User.findOne({username});
+        const user= await User.findOne({username,password});
         if(!user){
-            res.status(401).send({msg:"User does not exist"});
+            return res.status(401).send({msg:"User does not exist"});
         }
         const token= jwt.sign({userId:user._id},JWT_SECRET);
-        res.status(200).send({msg:"successfully signed in!",token});
+        return res.status(200).send({msg:"successfully signed in!",token,user});
     } catch (error) {
         console.log(error);
         res.status(500).send({msg:"internal server error!"})
     }
 })
 
+router.use(userCheck);
 router.get('/ride',async(req,res)=>{
     try {
         const allRides=await Ride.find({});
-        res.status(200).send({allRides});
+        return res.status(200).send({allRides});
     } catch (error) {
         console.log(error);
         res.status(500).send({msg:"server has some internal error!"});
     }
 })
 
-router.use(userCheck);
 
 router.get('/:id',async(req,res)=>{
     try {
@@ -123,7 +123,7 @@ router.post('/journey/:id',async(req,res)=>{
         if(!user || !ride || ride.quantity==0){
             return res.status(400).send({msg:"sorry! the ride cannot be booked"});
         }
-        if(user.walletBalance<ride.price){
+        if(user.walletBalance.amount<ride.price){
             return  res.status(400).send({msg:"insufficient wallet balance!"});
         }
         else{

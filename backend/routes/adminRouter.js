@@ -12,12 +12,12 @@ router.post('/signup',async(req,res)=>{
     try {
         const admin = await Admin.findOne({username});
         if(admin){
-            res.status(401).send({msg:"admin already exists"});
+            return res.status(401).send({msg:"admin already exists"});
         }
         else{
              const createdAdmin=await Admin.create(req.body);
              const token= jwt.sign({adminId:createdAdmin._id},JWT_SECRET_ADMIN);
-             return res.status(200).send({token});
+             return res.status(200).send({token,user:createdAdmin});
         }
     } catch (error) {
         console.log(error)
@@ -25,16 +25,16 @@ router.post('/signup',async(req,res)=>{
     }
 })
 
-router.get('/signin',async(req,res)=>{
+router.post('/signin',async(req,res)=>{
     const {username,password}= req.body;
     try {
         const {username,password}=req.body;
         const admin= await Admin.findOne({username});
         if(!admin){
-            res.status(401).send({msg:"User does not exist"});
+            return res.status(401).send({msg:"User does not exist"});
         }
         const token= jwt.sign({adminId:admin._id},JWT_SECRET_ADMIN);
-        res.status(200).send({msg:"successfully signed in!",token});
+        res.status(200).send({msg:"successfully signed in!",token,user:admin});
     } catch (error) {
         console.log(error);
         res.status(500).send({msg:"internal server error!"})
@@ -53,12 +53,23 @@ router.get('/ride',async(req,res)=>{
     }
 })
 
+router.get('/ride/:id',async(req,res)=>{
+    try {
+        const ride_id=req.params.id;
+        const ride=await Ride.findById(ride_id);
+        res.status(200).send({ride});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({msg:"server has some internal error!"});
+    }
+})
+
 router.post('/ride',async(req,res)=>{
     try {
         const {vehicle,quantity,price}=req.body;
         const ride= await Ride.findOne({vehicle});
         if(ride){
-            res.status(400).send({msg:"ride already exists"});
+            return res.status(400).send({msg:"ride already exists"});
         }
         await Ride.create(req.body);
         return res.status(200).send({msg:"ride created!"});
@@ -86,6 +97,8 @@ router.put('/ride/:id',async(req,res)=>{
 router.delete('/ride/:id',async(req,res)=>{
     try {
         await Ride.findByIdAndDelete(req.params.id);
+        const allRides=await Ride.find({});
+        return res.status(200).send({msg:"ride deleted",allRides});
     } catch (error) {
         console.log(error);
         res.status(500).send({msg:"server has some internal error!"});

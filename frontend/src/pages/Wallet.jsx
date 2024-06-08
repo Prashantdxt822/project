@@ -15,10 +15,15 @@ const Wallet = () => {
             Authorization:"Bearer "+localStorage.getItem("token")
           }
         })
+        .then(()=>{
+          alert('wallet has been topped up!! you can book your rides')
+        })
         .catch((err)=>{
             console.log(err.response.data)
+            alert('wallet cannot be topped up! please try again after 24 hrs')
         })
         // console.log(res)
+        
     }
   return (
     <div className='m-20 flex flex-col justify-center items-center  bg-blue-200 w-[60vw] h-[40vh]'>

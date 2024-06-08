@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const Profile = () => {
   const [searchParams] = useSearchParams();
@@ -63,10 +63,11 @@ const Profile = () => {
       });
   }, []);
   return (
-    <div className="m-10">
-      <div>Profile</div>
-      <div>First Name: {firstName}</div>
-      <div>Last Name: {lastName}</div>
+    <div className="m-10 flex flex-col gap-4">
+      <div>Profile </div>
+      <div className=" bg-yellow-100 w-60 rounded md"><b>First Name:</b> {firstName}</div>
+      <div className=" bg-pink-100 w-60 rounded md"><b>Last Name:</b> {lastName}</div>
+      <Link to={`/edit/user?id=${user_id}`} className=" bg-green-100 w-10 font-semibold rounded md">edit</Link>
       <div className="text-center font-bold my-4">
         Previous Journeys booked by the user
       </div>

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const AddRide = () => {
     const [ride,setRide]=useState({});
-    
+    const navigate=useNavigate();
 
     const submitFn=async()=>{
       axios.post(`http://localhost:3000/api/v1/admin/ride`,ride,{
@@ -15,6 +15,7 @@ const AddRide = () => {
       .then(function(res){
           console.log(res);
           alert('ride added');
+          navigate('/admin/dashboard');
           // setRides(res.data.allRides);
       })
     }   

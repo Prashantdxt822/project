@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 const Journey = () => {
   const [searchParams]=useSearchParams();
   const ride_id=searchParams.get("ride_id");
   const user_id=searchParams.get("user_id");
   const [address,setAddress]=useState("");
+  const navigate=useNavigate();
   const callApi=()=>{
     axios.get(`https://api.postalpincode.in/pincode/${searchValue}`)
     .then((res)=>{
@@ -27,7 +28,8 @@ const Journey = () => {
         }
       })
       console.log(res);
-      alert('journey booked!')
+      alert('journey booked!');
+      navigate(`/user/dashboard?id=${user_id}`)
     } catch (error) {
       console.log(error);
       alert('journey cannot be booked because of low wallet balance')

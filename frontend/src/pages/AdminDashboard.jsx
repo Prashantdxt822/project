@@ -33,7 +33,7 @@ const AdminDashboard = () => {
             {ride.quantity}
           </span>
           <span>
-            <span className="font-light mx-2">price: </span> {ride.price}
+            <span className="font-light mx-2">price: </span>₹ {ride.price}
           </span>
           <Link
             to={`/edit/ride?ride_id=${ride._id}`}

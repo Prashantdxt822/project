@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const Ride = () => {
     const [searchParams]=useSearchParams();
     const ride_id=searchParams.get("ride_id");
     const [ride,setRide]=useState({});
+    const navigate=useNavigate();
     useEffect(()=>{
       axios.get(`http://localhost:3000/api/v1/admin/ride/${ride_id}`,{
         headers: {
@@ -17,7 +18,7 @@ const Ride = () => {
           setRide(res.data.ride);
           // setRides(res.data.allRides);
       })
-    },[])
+    },[]);
 
     const submitFn=async()=>{
       axios.put(`http://localhost:3000/api/v1/admin/ride/${ride_id}`,ride,{
@@ -27,6 +28,8 @@ const Ride = () => {
       })
       .then(function(res){
           console.log(res);
+          alert('ride successfully edited!');
+          navigate(`/admin/dashboard`)
           // setRides(res.data.allRides);
       })
     }
